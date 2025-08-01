@@ -45,43 +45,13 @@ mongoose.connect(process.env.MONGO_URI, {
 }).then(() => console.log("✅ MongoDB connected"))
   .catch(err => console.error("❌ MongoDB error:", err));
 
-// Routes
-app.get('/api/intern/:id', async (req, res) => {
-  try {
-    const intern = await Intern.findById(req.params.id);
-    if (!intern) return res.status(404).json({ message: "Intern not found" });
-    res.json(intern);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
 
-// Leaderboard (Top 10 by totalRaised)
-app.get('/api/leaderboard', async (req, res) => {
-  try {
-    const topInterns = await Intern.find().sort({ totalRaised: -1 }).limit(10);
-    res.json(topInterns);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// Seed a dummy intern (optional POST route)
-app.post('/api/intern', async (req, res) => {
-  try {
-    const newIntern = new Intern(req.body);
-    const saved = await newIntern.save();
-    res.status(201).json(saved);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-});
+  app.get("/", (req, res) => res.send("Hello, world!"));
 
 // Auth Routes
 app.use('/api/auth', authRoutes);
 
 // Test API
-app.get("/", (req, res) => res.send("Hello, world!"));
 
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
