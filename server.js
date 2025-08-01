@@ -80,7 +80,9 @@ app.post('/api/intern', async (req, res) => {
 // Auth Routes
 app.use('/api/auth', authRoutes);
 
-// Start server
+// Test API
+app.get("/", (req, res) => res.send("Hello, world!"));
+
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
